@@ -1,19 +1,27 @@
- class GateLimiter < Formula
-    desc "Rate Limiting Middleware in Go"
-    homepage "https://github.com/sapiensXXV/gate-limiter"
-    url "https://github.com/sapiensXXV/gate-limiter/releases/download/0.1.0/gatelimiter.tar.gz"
-    sha256 "311403707a004ee376629e19f17f84adb3e6d2710c375c71a946bcc03ed856e8"
-    license "MIT"
+class GateLimiter < Formula
+  desc "API rate limiting reverse proxy"
+  homepage "https://github.com/sapiensXXV/gate-limiter"
+  version "0.2.0"
 
-    depends_on "go" => :build
-
-    def install
-    # ./cmd 이하에 빌드 대상이 있다면 경로를 맞추세요.
-      system "go", "build", *std_go_args(ldflags: "-s -w"), "./cmd"
+  on_macos do
+    on_arm do
+      url "https://github.com/sapiensXXV/gate-limiter/releases/download/v0.2.0/gl-darwin-arm64.tar.gz"
+      sha256 "61b10a84197690b73926e55f13d46787eb025d8fc3f792bceb2877990c38ca1a"
     end
-
-    test do
-    # 최소한 버전 출력 등으로 설치가 됐는지 확인
-      assert_match version.to_s, shell_output("#{bin}/gate-limiter --version")
+    on_intel do
+      url "https://github.com/sapiensXXV/gate-limiter/releases/download/v0.2.0/gl-darwin-amd64.tar.gz"
+      sha256 "fa94b9d62baf5ef6ba28578b74666236e250cfc3e2d7bbc82f03aa0ca305d612"
     end
+  end
+
+  on_linux do
+    on_intel do
+      url "https://github.com/sapiensXXV/gate-limiter/releases/download/v0.2.0/gl-linux-amd64.tar.gz"
+      sha256 "ceacbe5f0a83a22ac7a890683b5c4ae704beaf5f5c1d8ab8c22102e432908c6b"
+    end
+  end
+
+  def install
+    bin.install "gl"
+  end
 end
