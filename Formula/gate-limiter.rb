@@ -1,27 +1,29 @@
 class GateLimiter < Formula
-  desc "API rate limiting reverse proxy"
+  desc "Configurable API rate-limiting reverse proxy"
   homepage "https://github.com/sapiensXXV/gate-limiter"
-  version "0.2.0"
+  version "0.2.1"
+  license "MIT"
 
   on_macos do
-    on_arm do
-      url "https://github.com/sapiensXXV/gate-limiter/releases/download/v0.2.0/gl-darwin-arm64.tar.gz"
-      sha256 "61b10a84197690b73926e55f13d46787eb025d8fc3f792bceb2877990c38ca1a"
-    end
-    on_intel do
-      url "https://github.com/sapiensXXV/gate-limiter/releases/download/v0.2.0/gl-darwin-amd64.tar.gz"
-      sha256 "fa94b9d62baf5ef6ba28578b74666236e250cfc3e2d7bbc82f03aa0ca305d612"
+    if Hardware::CPU.arm?
+      url "https://github.com/sapiensXXV/gate-limiter/releases/download/v0.2.1/gl-darwin-arm64.tar.gz"
+      sha256 "fa897d60a97e60fb812d22c3395a41cbbd1b909c66a42abcebec87f6c666b997"
+    else
+      url "https://github.com/sapiensXXV/gate-limiter/releases/download/v0.2.1/gl-darwin-amd64.tar.gz"
+      sha256 "b0e27b8e6143832315f77b34bba302ade3a9c6fe88966bead2daeed09a603982"
     end
   end
 
   on_linux do
-    on_intel do
-      url "https://github.com/sapiensXXV/gate-limiter/releases/download/v0.2.0/gl-linux-amd64.tar.gz"
-      sha256 "ceacbe5f0a83a22ac7a890683b5c4ae704beaf5f5c1d8ab8c22102e432908c6b"
-    end
+    url "https://github.com/sapiensXXV/gate-limiter/releases/download/v0.2.1/gl-linux-amd64.tar.gz"
+    sha256 "9fe6776322c4bf764808c27f398bfd7d7e72edeb0d0f24063c293edba2493e33"
   end
 
   def install
     bin.install "gl"
+  end
+
+  test do
+    assert_match "gate-limiter", shell_output("#{bin}/gl version")
   end
 end
